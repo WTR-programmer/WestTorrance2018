@@ -1,6 +1,5 @@
 package org.usfirst.frc5124.WestTorranceSwagbotics2018.subsystems;
 
-import java.awt.Robot;
 
 import org.usfirst.frc5124.WestTorranceSwagbotics2018.RobotMap;
 import org.usfirst.frc5124.WestTorranceSwagbotics2018.commands.*;

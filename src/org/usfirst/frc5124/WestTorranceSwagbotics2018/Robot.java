@@ -8,14 +8,6 @@ import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
-import org.usfirst.frc5124.WestTorranceSwagbotics2018.commands.AutoGroupGameData;
-import org.usfirst.frc5124.WestTorranceSwagbotics2018.commands.AutoGroupForwardTest;
-import org.usfirst.frc5124.WestTorranceSwagbotics2018.commands.AutoGroupTurnTest;
-import org.usfirst.frc5124.WestTorranceSwagbotics2018.commands.AutoGroup_NoPID;
-import org.usfirst.frc5124.WestTorranceSwagbotics2018.commands.AutoGroup_TestRobotRun;
-import org.usfirst.frc5124.WestTorranceSwagbotics2018.commands.RegionalAutoBothButRight;
-import org.usfirst.frc5124.WestTorranceSwagbotics2018.commands.RegionalAutoLeft;
-import org.usfirst.frc5124.WestTorranceSwagbotics2018.commands.RegionalAutoRight;
 import org.usfirst.frc5124.WestTorranceSwagbotics2018.subsystems.*;
 import org.usfirst.frc5124.WestTorranceSwagbotics2018.commands.*;
 
@@ -67,12 +59,18 @@ public class Robot extends TimedRobot {
     	gameData = DriverStation.getInstance().getGameSpecificMessage();
     	
         //autonomousCommand = new RegionalAutoLeft();
-    	autonomousCommand = new AutoGroupSwitchRight();
-        //autonomousCommand = new AutoGroupGameData();
-        //j 8u
-       // autonomousCommand = new AutoGroupFlipPosTest();
+    	
+    	//autonomousCommand = new AutoGroupSwitchRight();
         
-    	 //autonomousCommand = new RegionalAutoBothButRight();
+    	//autonomousCommand = new AutoGroupGameData();
+
+    	autonomousCommand = new AutoGroupForwardTest();
+
+//    	autonomousCommand = new Wait(4);
+    	
+    	//autonomousCommand = new AutoGroupFlipPosTest();
+    	
+    	//autonomousCommand = new RegionalAutoBothButRight();
     	
         if (autonomousCommand != null) autonomousCommand.start();
     }

@@ -1,23 +1,30 @@
- package org.usfirst.frc5124.WestTorranceSwagbotics2018;
+package org.usfirst.frc5124.WestTorranceSwagbotics2018;
 
 import edu.wpi.first.wpilibj.AnalogInput;
+import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.interfaces.Potentiometer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 
 
 public class RobotMap {
+	//private static double b;
+	//private static double a;
+	//private static PIDController massivelyCancer = new PIDController(1, 10, 0, (PIDSource) (Object) new Double(a), (PIDOutput) (Object) new Double(b));
     
 	//DRIVE TRAIN
 	//Drive Train Left Side
@@ -59,6 +66,7 @@ public class RobotMap {
     
     //Gyro
     public static ADXRS450_Gyro Gyro;
+    public static AHRS newGyro;
     
     //Fake Motor
     public static  SpeedController fakeMotor;
@@ -66,6 +74,10 @@ public class RobotMap {
     
     public static void init() {
         //Drive Train Left Side
+    	//a = 0;
+    	//massivelyCancer.setSetpoint(1);
+    	//SmartDashboard.putNumber("Cancer Mass", b);
+    	
     	driveTrainLeft1 = new VictorSP(3);
         driveTrainLeft1.setInverted(false);
         driveTrainLeft2= new VictorSP(4);
@@ -102,7 +114,7 @@ public class RobotMap {
         flipper = new VictorSP(2);
         intakeRight.setInverted(false);
         pot = new AnalogPotentiometer(0);
-        flipperPID = new PIDController(0, 0, 0, 0, pot, flipper);
+       // flipperPID = new PIDController(0, 0, 0, 0, pot, flipper);
 
         //Lift
         lift1 = new VictorSP(7);
@@ -123,9 +135,11 @@ public class RobotMap {
       //  MagicEye = new CameraServer();
         
         //Gyro
-        Gyro = new ADXRS450_Gyro();
+        Gyro = new ADXRS450_Gyro(); 
         Gyro.calibrate();
     	Gyro.reset();
+    	
+    	//newGyro = new AHRS(null);
         
         //Fake Motor
         fakeMotor = new VictorSP(9);

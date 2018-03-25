@@ -5,6 +5,9 @@ import org.usfirst.frc5124.WestTorranceSwagbotics2018.RobotMap;
 
 public class LiftAscend extends Command {
 
+	public static final double SWITCH_POS = 0.5;
+	public static final double SCALE_POS = 1;
+	public static final double BOTTOM = 0;
 	private double ticksToMove;
 	private double ticksMoved;
 	private double power;

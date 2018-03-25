@@ -12,14 +12,9 @@ public class AutoGroupForwardTest extends CommandGroup {
 		//addSequential(new AutoDriveForward(.5, 144));
 		
 		//addSequential(new AutoTurnWithGyro(25));
-		addSequential(new AutoDriveWIthPID(70));
-		addSequential(new Wait(1));
-		//addSequential(new FlipPos(1));
-		addSequential(new Wait(1));
-		addSequential(new AutoTurnWithPID(-90));
-		addSequential(new Wait(1));
-		//addSequential(new AutoOutTake(3));
-		
+//		addSequential(new AutoDriveWIthPID(6 * Math.PI));
+		//addSequential(new AutoDriveForward(.7,2));
+		addSequential(new AutoTurnWithPID(180));
 
 	}
 }

@@ -16,18 +16,21 @@ public class AutoGroupSwitchRight extends CommandGroup {
 		pos1 = GameData.charAt(0);
 		pos2 = GameData.charAt(1);
 		
+		
 		if (GameData.charAt(0) == 'R') {
-		//addSequential(new FlipPos(1));
+//		addSequential(new FlipPos(1));
 		addSequential(new Wait(1));
 		addSequential(new LiftAscend(1));
 		addSequential(new Wait(1));
-		addSequential(new AutoDriveForward(.7, 3));
+		//addSequential(new AutoDriveForward(.7, 3));
+		addSequential(new AutoDriveWIthPID(12));
+		//
 		addSequential(new Wait(1));
 //		addSequential(new FlipPower(-.4, 1));
 //		addSequential(new Wait(1));
 //		addSequential(new AutoOutTake(2));
 //		addSequential(new Wait(1));
-		addSequential(new GrabUngrab(GrabUngrab.UNGRAB));
+		addSequential(new GrabUngrab( GrabUngrab.UNGRAB));
 		addSequential(new Wait(1));
 		addSequential(new AutoOutTake(3));
 		addSequential(new Wait(1));
@@ -36,7 +39,7 @@ public class AutoGroupSwitchRight extends CommandGroup {
 		}
 		else {
 			addSequential(new AutoDriveForward(.7, 2));
-			 
+			
 		}
 		
 		//addSequential(new );

@@ -312,7 +312,7 @@ public class DriveTrainJoystickPuppetry extends Command {
     	
 		
 		
-
+    	SmartDashboard.putNumber(" old Gyro", RobotMap.Gyro.getAngle());
     	
     	SmartDashboard.putBoolean("Grabbing", grabbing);
     	SmartDashboard.putBoolean("Releasing", releasing);

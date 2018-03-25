@@ -13,11 +13,11 @@ public class AutoGroupGameDataNoDrivePID extends CommandGroup {
 	public AutoGroupGameDataNoDrivePID(){
 		String GameData = Robot.gameData;
 		if(pos == 'C') {
-			addSequential(new AutoDriveForward(power, .5));
+			addSequential(new AutoDriveForward(power, 36));
 			addSequential(new AutoTurnWithGyro(90));
-			addSequential(new AutoDriveForward(power, 1));
+			addSequential(new AutoDriveForward(power, 72));
 			addSequential(new AutoTurnWithGyro(-90));
-			addSequential(new AutoDriveForward(-power, .5));			
+			addSequential(new AutoDriveForward(-power, 40));			
 			pos = 'R';
 		}
 		//go to scale
