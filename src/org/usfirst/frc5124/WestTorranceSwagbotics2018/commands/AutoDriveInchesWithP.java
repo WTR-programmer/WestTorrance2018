@@ -38,10 +38,10 @@ public class AutoDriveInchesWithP extends Command {
     	int pos = RobotMap.driveEncoder.get();
     	if (Math.abs(target - pos) < 10 && RobotMap.driveEncoder.getRate() < 50) {
     		done = true;
-    		RobotMap.EntireDrive.set(0);
+//    		RobotMap.EntireDrive.set(0);
     		return;
     	}
-    	RobotMap.EntireDrive.set((target - pos) / 1000.0);
+//    	RobotMap.EntireDrive.set((target - pos) / 1000.0);
     	SmartDashboard.putNumber("Speed", (target - pos) / 1000.0);
     	SmartDashboard.putNumber("Pos", RobotMap.driveEncoder.get());
     	SmartDashboard.putNumber("Target", target);

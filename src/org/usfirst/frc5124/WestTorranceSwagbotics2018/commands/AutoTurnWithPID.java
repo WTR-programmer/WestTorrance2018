@@ -14,6 +14,7 @@ public class AutoTurnWithPID extends Command {
 	private double DegreesTurned;
 	private boolean Right;
 	private boolean done;
+	private double direction;
 	
 	
 	
@@ -22,15 +23,18 @@ public class AutoTurnWithPID extends Command {
     	DegreesToTurn = Degrees;
     	if (Degrees > 0) {
     		Right = true;
+    		direction = 1;
     	}
     	else {
     		Right = false;
+    		direction = -1;
     	}
     }
 
     @Override
     protected void initialize() {
     	RobotMap.Gyro.reset();
+    	RobotMap.newGyro.reset();
     	done = false;
     	//Robot.driveTrain.Wait(4);
     	RobotMap.driveTrainRight1.setInverted(false);
@@ -40,12 +44,19 @@ public class AutoTurnWithPID extends Command {
    
     @Override
     protected void execute() {
-    	DegreesTurned = RobotMap.Gyro.getAngle();
+    	DegreesTurned = RobotMap.newGyro.getAngle();
     	//RobotMap.EntireDrive.set(Robot.driveTrain.TurnOutput);
     		Robot.driveTrain.TurnPID.enable();
-    		Robot.driveTrain.TurnPID.setAbsoluteTolerance(5);
-    		Robot.driveTrain.TurnPID.setOutputRange(-.6 , .6);
+    		Robot.driveTrain.TurnPID.setAbsoluteTolerance(2);
+//    		Robot.driveTrain.TurnPID.setOutputRange(-.6 , .6);
     		Robot.driveTrain.TurnPID.setSetpoint(DegreesToTurn);
+    		
+    		if (Math.abs(Robot.driveTrain.TurnPID.get()) > .2) {
+    		Robot.driveTrain.tankDrive(Robot.driveTrain.TurnPID.get(), -Robot.driveTrain.TurnPID.get());
+    		}
+    		else {
+    			Robot.driveTrain.tankDrive(.2 * direction, .2 * -direction);
+    		}
     		
     		if (Robot.driveTrain.TurnPID.onTarget()) {
     			Robot.driveTrain.TurnPID.disable();
@@ -61,15 +72,17 @@ public class AutoTurnWithPID extends Command {
     		}
     		else {
     			done = false;
-    			
     		}
     		
     		
-    	SmartDashboard.putNumber("Get Angle", RobotMap.Gyro.getAngle());
-    	SmartDashboard.putNumber("GetRate", RobotMap.Gyro.getRate());
-    	SmartDashboard.putNumber("Gyro PID return", RobotMap.Gyro.pidGet());
+    	SmartDashboard.putNumber("New Gyro", RobotMap.newGyro.getAngle());
+    	SmartDashboard.putNumber("Old Gyro", RobotMap.Gyro.getAngle());
+    	SmartDashboard.putNumber("Get Angle Raw", RobotMap.newGyro.getRawGyroX());
+    	SmartDashboard.putNumber("GetRate", RobotMap.newGyro.getRate());
+    	SmartDashboard.putNumber("Gyro PID return", RobotMap.newGyro.pidGet());
     	SmartDashboard.putNumber("Degree Target", DegreesToTurn);
     	SmartDashboard.putBoolean("Gyro Done", done);
+    	SmartDashboard.putNumber("yaw", RobotMap.newGyro.getYaw());
     //	SmartDashboard.putNumber("Calibration", RobotMap.Gyro.calibrate());
     	
     	SmartDashboard.putNumber("Drive left1 power", RobotMap.driveTrainLeft1.get());

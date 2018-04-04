@@ -69,6 +69,7 @@ public class DriveTrainJoystickPuppetry extends Command {
     	outtaking = false;
     	Robot.intake.disablePID();
     	RobotMap.driveEncoder.reset();
+    	RobotMap.newGyro.reset();
 
     	RobotMap.driveTrainRight1.setInverted(false);
     	RobotMap.driveTrainRight2.setInverted(false);
@@ -312,7 +313,9 @@ public class DriveTrainJoystickPuppetry extends Command {
     	
 		
 		
-    	SmartDashboard.putNumber(" old Gyro", RobotMap.Gyro.getAngle());
+    	SmartDashboard.putNumber("Old Gyro", RobotMap.Gyro.getAngle());
+    	SmartDashboard.putNumber("New Gyro", RobotMap.newGyro.getAngle());
+    	SmartDashboard.putNumber("Get Angle Raw", RobotMap.newGyro.getRawGyroX());
     	
     	SmartDashboard.putBoolean("Grabbing", grabbing);
     	SmartDashboard.putBoolean("Releasing", releasing);
@@ -342,6 +345,7 @@ public class DriveTrainJoystickPuppetry extends Command {
     	SmartDashboard.putNumber("Right 2", RobotMap.driveTrainRight2.get());
     	
     	SmartDashboard.putNumber("Drive Ticks", RobotMap.driveEncoder.get());
+    	SmartDashboard.putNumber("Drive Ticks Raw", RobotMap.driveEncoder.getRaw());
     }
 
     protected boolean isFinished() {

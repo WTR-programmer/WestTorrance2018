@@ -19,11 +19,12 @@ public class DriveTrain extends Subsystem {
 	 
    public final DifferentialDrive differentialDrive = RobotMap.driveTrainDifferentialDrive;
     private final Compressor compressor = RobotMap.driveTrainCompressor;
-   public final PIDController DrivePID = new PIDController(1, 0 ,0, RobotMap.driveEncoder, RobotMap.EntireDrive);
-   public final PIDController TurnPID = new PIDController(3,1,0, RobotMap.Gyro, RobotMap.EntireDrive);
+   public final PIDController DrivePID = new PIDController(1, 0 ,0, RobotMap.driveEncoder, RobotMap.fakeMotor);
+   public final PIDController TurnPID = new PIDController(.04,0,.1, RobotMap.newGyro, RobotMap.fakeMotor);
    
-   public final PIDController PowerPID = new PIDController(.0007,.1,0, RobotMap.driveEncoder, RobotMap.fakeMotor );
-   public final PIDController AdjustPID = new PIDController(.1,0,0, RobotMap.Gyro, RobotMap.fakeMotor);
+   public final PIDController PowerPID = new PIDController(.001,0,0, RobotMap.driveEncoder, RobotMap.fakeMotor );
+   public final PIDController AdjustPID = new PIDController(.1,0,0, RobotMap.newGyro, RobotMap.fakeMotor);
+   public final PIDController CurvePID = new PIDController(.01,0,0, RobotMap.newGyro, RobotMap.fakeMotor);
     
     
     public void initDefaultCommand() {

@@ -2,10 +2,12 @@ package org.usfirst.frc5124.WestTorranceSwagbotics2018;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import com.kauailabs.navx.frc.AHRS;
+import com.kauailabs.navx.AHRSProtocol;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
@@ -19,7 +21,8 @@ import edu.wpi.first.wpilibj.interfaces.Potentiometer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
-
+import edu.wpi.first.wpilibj.ADXL345_SPI;
+import edu.wpi.first.wpilibj.SPI;
 
 public class RobotMap {
 	//private static double b;
@@ -38,7 +41,7 @@ public class RobotMap {
     //Drive Train Diff Drive
     public static DifferentialDrive driveTrainDifferentialDrive;
     public static Encoder driveEncoder;
-    public static SpeedControllerGroup EntireDrive;
+    //public static SpeedControllerGroup EntireDrive;
     //Compressor 
     public static Compressor driveTrainCompressor;
     
@@ -98,7 +101,7 @@ public class RobotMap {
         driveTrainDifferentialDrive.setMaxOutput(1.0);
         driveEncoder = new Encoder(0,1);
         
-        EntireDrive = new SpeedControllerGroup(driveTrainLeft1 , driveTrainLeft2, driveTrainRight1 , driveTrainRight2);
+        //EntireDrive = new SpeedControllerGroup(driveTrainLeft1 , driveTrainLeft2, driveTrainRight1 , driveTrainRight2);
 //        PIDController PowerPID = new PIDController(.0005,0,0, RobotMap.driveEncoder, Robot.driveTrain.PowerOutput );
 //        PIDController AdjustPID = new PIDController(1,0,0, RobotMap.Gyro, Robot.driveTrain.TurnOutput);
         
@@ -136,11 +139,11 @@ public class RobotMap {
         
         //Gyro
         Gyro = new ADXRS450_Gyro(); 
-        Gyro.calibrate();
-    	Gyro.reset();
-    	
-    	//newGyro = new AHRS(null);
+//        Gyro.calibrate();
+//    	Gyro.reset();
         
+    	newGyro = new AHRS(SPI.Port.kMXP);
+    	
         //Fake Motor
         fakeMotor = new VictorSP(9);
         

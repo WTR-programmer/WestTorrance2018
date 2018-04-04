@@ -64,13 +64,15 @@ public class Robot extends TimedRobot {
         
     	//autonomousCommand = new AutoGroupGameData();
 
-    	autonomousCommand = new AutoGroupForwardTest();
+//    	autonomousCommand = new AutoGroupCenterSwitch();
 
 //    	autonomousCommand = new Wait(4);
     	
-    	//autonomousCommand = new AutoGroupFlipPosTest();
+//    	autonomousCommand = new AutoGroupScaleLeft();
     	
-    	//autonomousCommand = new RegionalAutoBothButRight();
+    	autonomousCommand = new AutoGroupLeftScale();
+    	
+//    	autonomousCommand = new AutoGroupTurnTest();
     	
         if (autonomousCommand != null) autonomousCommand.start();
     }

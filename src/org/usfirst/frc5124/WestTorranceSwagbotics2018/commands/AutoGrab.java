@@ -7,14 +7,14 @@ import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class AutoUnGrab extends Command {
+public class AutoGrab extends Command {
 
 	char pos;
 	private boolean isFinished;
 	public final static char GRAB = 0x11;
 	public final static char UNGRAB = 0x18;
 	
-	public AutoUnGrab() {
+	public AutoGrab() {
 		this.pos = pos;
 		isFinished = false;
 		setTimeout(1);
@@ -22,7 +22,7 @@ public class AutoUnGrab extends Command {
 	
 	public void execute() {
 //		
-		Robot.intake.Ungrab();
+		Robot.intake.Grab();
 		if (isTimedOut()) {
 		isFinished = true;
 		}

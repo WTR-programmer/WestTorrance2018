@@ -10,8 +10,10 @@ import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 //import edu.wpi.first.wpilibj.RobotDrive;
 
-public class AutoDriveWIthPID extends Command {
+public class CommandCurveWithPID extends Command {
 
+	private double curve;
+	private double DesiredAngle;
 	private double ticks;
 	private double power;
 	private double left;
@@ -27,6 +29,11 @@ public class AutoDriveWIthPID extends Command {
 //	double pulsesPerInch = pulsesPerRevolution/wheelCircumference;
 	double ticksPerInch = ticksPerRevolution/wheelCircumference;
 	boolean done;
+	boolean acute;
+	double max;
+	double InitialAngle;
+	double CurrentAngle;
+	boolean AccuratePID;
 	
 	
 	private PIDController PowerPID = Robot.driveTrain.PowerPID;
@@ -39,10 +46,23 @@ public class AutoDriveWIthPID extends Command {
 //	double TurnValue = Robot.driveTrain.AdjustPID.get();
 //	double PowerValue = Robot.driveTrain.PowerPID.get();
 	
-    public AutoDriveWIthPID( double inches) {
+    public CommandCurveWithPID( double inches, double angle, boolean sharp, double MaxOutPut) {
     	requires(Robot.driveTrain);
   //  	pulsestomove = inches * pulsesPerInch;
     	ticksToMove = inches * ticksPerInch;
+    	curve = angle;
+    	acute = sharp;
+    	max = MaxOutPut;
+    	AccuratePID = false;
+    }
+    public CommandCurveWithPID( double inches, double angle, boolean sharp, double MaxOutPut, boolean PIDadjust) {
+    	requires(Robot.driveTrain);
+  //  	pulsestomove = inches * pulsesPerInch;
+    	ticksToMove = inches * ticksPerInch;
+    	curve = angle;
+    	acute = sharp;
+    	max = MaxOutPut;
+    	AccuratePID = PIDadjust;
     }
 
     @Override
@@ -51,26 +71,31 @@ public class AutoDriveWIthPID extends Command {
     	//timeout Just in case (This might turn the command into a time function, if the PID doesn't work)
     	//setTimeout(10);
     	RobotMap.driveEncoder.reset();
-    	RobotMap.Gyro.reset();
-    	RobotMap.newGyro.reset();
+//    	RobotMap.Gyro.reset();
+//    	RobotMap.newGyro.reset();
     	RobotMap.driveTrainRight1.setInverted(false);
     	RobotMap.driveTrainRight2.setInverted(false);
-    	Robot.driveTrain.PowerPID.setOutputRange(-.7, .7);
+    	Robot.driveTrain.PowerPID.setOutputRange(-max, max);
     	//Robot.driveTrain.DrivePID.setAbsoluteTolerance(100);
-    	Robot.driveTrain.PowerPID.setAbsoluteTolerance(50);
-
+    	Robot.driveTrain.PowerPID.setAbsoluteTolerance(10);
+    	InitialAngle = RobotMap.newGyro.getAngle();
+    	DesiredAngle = InitialAngle + curve;
     	//Set time out
-    	setTimeout(5);
+//    	setTimeout(5);
     }
 
    
     @Override
     protected void execute() {
-    	Robot.driveTrain.AdjustPID.enable();
+    	CurrentAngle = RobotMap.newGyro.getAngle();
+    	
+    	
+    	
+    	Robot.driveTrain.CurvePID.enable();
     	Robot.driveTrain.PowerPID.enable();
-    	Robot.driveTrain.AdjustPID.setSetpoint(0);
+    	CurvePID.setSetpoint(DesiredAngle);
     	Robot.driveTrain.PowerPID.setSetpoint(ticksToMove);
-    	Robot.driveTrain.arcadeDrive(PowerPID.get(), AdjustPID.get());
+    	Robot.driveTrain.differentialDrive.curvatureDrive(PowerPID.get(), CurvePID.get(), acute);
     	
     	//Robot.driveTrain.arcadeDrive(.5, 0);
     	if (PowerPID.onTarget()) {
@@ -79,10 +104,26 @@ public class AutoDriveWIthPID extends Command {
         	Robot.driveTrain.PowerPID.disable();
         	Robot.driveTrain.CurvePID.disable();
         	Robot.driveTrain.arcadeDrive(0,0);
-    				}
+		}
     	else {
     		done = false;
     	}
+    	
+//    	if (Math.abs(RobotMap.driveEncoder.get()) > Math.abs(ticksToMove) && !AccuratePID) {
+//    		done = true;
+//    		Robot.driveTrain.AdjustPID.disable();
+//        	Robot.driveTrain.PowerPID.disable();
+//        	Robot.driveTrain.CurvePID.disable();
+//        	Robot.driveTrain.arcadeDrive(0,0);
+//    	}
+//    	else if (AccuratePID && Robot.driveTrain.PowerPID.get() <= .1) {
+//    		done = true;
+//    		Robot.driveTrain.AdjustPID.disable();
+//        	Robot.driveTrain.PowerPID.disable();
+//        	Robot.driveTrain.CurvePID.disable();
+//        	Robot.driveTrain.arcadeDrive(0,0);
+//    	}
+    	
 
     	
     	//Shut off if it takes too long
@@ -139,6 +180,7 @@ public class AutoDriveWIthPID extends Command {
     	SmartDashboard.putNumber("PowerPid value", Robot.driveTrain.PowerPID.get() );
     	SmartDashboard.putNumber("Old Gyro", RobotMap.Gyro.getAngle());
     	SmartDashboard.putNumber("New Gyro", RobotMap.newGyro.getAngle());
+    	SmartDashboard.putNumber("Auto Curve Angle", DesiredAngle );
     	
     	SmartDashboard.putNumber("left Intake", RobotMap.intakeLeft.get());
     	SmartDashboard.putNumber("right Intake",RobotMap.intakeRight.get());
